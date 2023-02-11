@@ -1,0 +1,29 @@
+include "system";
+include "vm";
+
+
+function run{
+   exe.system.printf(out:"New Thread");
+   if(!(true&false)){
+       while(false|true){
+          exe.system.printf(out:"A");
+          break;
+       }
+   }
+}
+
+value var:"变量备注" = 1 + 1;
+value name:"布尔值" = !false;
+value cc:"函数" = exe.system.input();
+
+//单行注释
+
+/*
+多行注释
+*/
+
+exe.vm.thread(name:"run");
+exe.system.printf(out:"H");
+
+
+
