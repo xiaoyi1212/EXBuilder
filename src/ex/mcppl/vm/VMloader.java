@@ -32,7 +32,6 @@ public class VMloader {
 
     public void launch(VMOutputStream player, ExThread thread) throws VMRuntimeException {
 
-
         e = Executor.load(fbc, player, element.getLoader(),functions);
         e.getFunctions().addAll(functions);
         output_buffer = e.start(player, thread);

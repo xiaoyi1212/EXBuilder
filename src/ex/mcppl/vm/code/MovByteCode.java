@@ -1,7 +1,6 @@
 package ex.mcppl.vm.code;
 
 import ex.mcppl.vm.VMRuntimeException;
-import ex.mcppl.vm.buf.AllValueBuffer;
 import ex.mcppl.vm.buf.ExObject;
 import ex.mcppl.vm.buf.ExValue;
 import ex.mcppl.vm.exe.Executor;
@@ -28,18 +27,19 @@ public class MovByteCode implements ByteCode{
 
             ExObject Return = executor.getStack().pop();
 
-            for(ExValue v:AllValueBuffer.values){
-                if(v.getName().equals(name)){
+            for (ExValue v : executor.getThread().getAllValues()) {
+                if (v.getName().equals(name)) {
                     v.setValue(Return);
                     return;
                 }
             }
 
-            AllValueBuffer.values.add(new ExValue(name, text, Return));
-
+            executor.getThread().getAllValues().add(new ExValue(name, text, Return));
+        }catch (VMRuntimeException vre){
+            throw vre;
         }catch (Exception e){
             e.printStackTrace();
-            throw new VMRuntimeException("Create value throw exception:"+e.getLocalizedMessage(),executor.getPlayer());
+            throw new VMRuntimeException("Create value throw exception:"+e.getLocalizedMessage(),executor.getPlayer(), VMRuntimeException.Type.EXCEPTION);
         }
     }
 }

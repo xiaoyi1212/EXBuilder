@@ -24,7 +24,7 @@ public class ThreadManager {
     public static void addThreads(ExThread thread) throws VMRuntimeException{
         for(ExThread thread1:threads){
             if(thread.thread_name.equals(thread1.thread_name)){
-                throw new VMRuntimeException("Cannot add have same name thread:"+thread.thread_name, Main.getOutput());
+                throw new VMRuntimeException("Cannot add have same name thread:"+thread.thread_name, Main.getOutput(), VMRuntimeException.Type.SAME_NAME_EXCEPTION);
             }
         }
         threads.add(thread);

@@ -8,6 +8,25 @@ public class VMRuntimeException extends Exception{
 
     String message;
 
+    public enum Type{
+        NULL_PRINT_EXCEPTION,
+        NOT_FOUND_VALUE_EXCEPTION,
+        NOT_FOUND_FUNCTION_EXCEPTION,
+        NOT_FOUND_DICT_VALUE_EXCEPTION,
+        CAST_VALUE_EXCEPTION,
+        UNKNOWN_NAME,
+        VM_ERROR,
+        SAME_NAME_EXCEPTION,
+        EXCEPTION,
+        NOT_FOUND_LIB
+    }
+
+    Type type;
+
+    public Type getType() {
+        return type;
+    }
+
     public VMRuntimeException(){
         ThreadGroup parentThread;
         int totalThread = 0;
@@ -46,7 +65,8 @@ public class VMRuntimeException extends Exception{
         return message;
     }
 
-    public VMRuntimeException(String message, VMOutputStream player) {
+    public VMRuntimeException(String message, VMOutputStream player,Type type) {
+        this.type = type;
         ThreadGroup parentThread;
         int totalThread = 0;
         for (parentThread = Thread.currentThread().getThreadGroup(); parentThread

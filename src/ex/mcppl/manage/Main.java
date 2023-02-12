@@ -18,6 +18,7 @@ public class Main {
            add("this");
            add("break");
            add("null");
+           add("catch");
     }};
 
     public static boolean isKey(String data){
@@ -33,8 +34,9 @@ public class Main {
         args = new String[2];
         args[0]="-filename:debug.exf";
         args[1]="-filename:bug.exf";
-       
-         */
+        */
+
+
 
         if(args.length == 0){
             System.out.println("-filename:<File> 编译并运行指定文件.\n" +

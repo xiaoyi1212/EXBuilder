@@ -29,7 +29,7 @@ public class JneByteCode implements ByteCode{
         }
 
         ExObject obj = executor.getStack().pop();
-        if(!obj.getType().equals(ExObject.Type.BOOL))throw new VMRuntimeException("Cannot convert other types to Boolean types.", executor.getPlayer());
+        if(!obj.getType().equals(ExObject.Type.BOOL))throw new VMRuntimeException("Cannot convert other types to Boolean types.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         ExBool booll = (ExBool) obj; boolean b = Boolean.parseBoolean(booll.getData());
         if(b)for(ByteCode bc:gbc.getBcs())bc.exe(executor);
 

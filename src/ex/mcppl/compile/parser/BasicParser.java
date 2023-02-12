@@ -77,6 +77,20 @@ public class BasicParser {
                         }
                         return leaf;
                     }
+                    case "catch"->{
+                        leaf = new AstCatchTree();
+                        ArrayList<LexToken.TokenD> tds = new ArrayList<>();
+                        do {
+                            td = getToken();
+                            if (td.getToken().equals(LexToken.Token.LP) && td.getData().equals("{")) break;
+                            tds.add(td);
+                        } while (true);
+                        ((AstCatchTree) leaf).setTds(tds);
+                        for (AstTree at : getBlockGroup(td)) {
+                            leaf.children().add(at);
+                        }
+                        return leaf;
+                    }
                     case "value" -> {
                         leaf = new AstValueTree();
                         ArrayList<LexToken.TokenD> tds = new ArrayList<>();
@@ -202,9 +216,22 @@ public class BasicParser {
                     AstLeaf leaf1 = new AstWhileTree();
                     tdt = getToken();
                     if (!(tdt.getToken().equals(LexToken.Token.LP) && tdt.getData().equals("(")))
-                        throw new VMException("The While statement must be followed by '('",player);
+                        throw new VMException("The While statement must be followed by '('", player);
                     getWhile((AstWhileTree) leaf1);
                     ats.add(leaf1);
+                } else if(tdt.getData().equals("catch")){
+                    AstCatchTree leaf = new AstCatchTree();
+                    ArrayList<LexToken.TokenD> tds = new ArrayList<>();
+                    do {
+                        tdt = getToken();
+                        if (tdt.getToken().equals(LexToken.Token.LP) && tdt.getData().equals("{")) break;
+                        tds.add(tdt);
+                    } while (true);
+                    ((AstCatchTree) leaf).setTds(tds);
+                    for (AstTree at : getBlockGroup(tdt)) {
+                        leaf.children().add(at);
+                    }
+                    ats.add(leaf);
                 } else if (tdt.getData().equals("break")) {
                     ats.add(new AstBreakTree());
                 } else throw new VMException("error in parser :" + tdt,player);
@@ -288,9 +315,22 @@ public class BasicParser {
                     AstLeaf leaf1 = new AstWhileTree();
                     tdt = getToken();
                     if (!(tdt.getToken().equals(LexToken.Token.LP) && tdt.getData().equals("(")))
-                        throw new VMException("The While statement must be followed by '('",player);
+                        throw new VMException("The While statement must be followed by '('", player);
                     getWhile((AstWhileTree) leaf1);
                     ats.add(leaf1);
+                }else if(tdt.getData().equals("catch")){
+                    AstCatchTree leaf = new AstCatchTree();
+                    ArrayList<LexToken.TokenD> tds = new ArrayList<>();
+                    do {
+                        tdt = getToken();
+                        if (tdt.getToken().equals(LexToken.Token.LP) && tdt.getData().equals("{")) break;
+                        tds.add(tdt);
+                    } while (true);
+                    ((AstCatchTree) leaf).setTds(tds);
+                    for (AstTree at : getBlockGroup(tdt)) {
+                        leaf.children().add(at);
+                    }
+                    ats.add(leaf);
                 } else if (tdt.getData().equals("break")) {
                     ats.add(new AstBreakTree());
                 } else throw new VMException("error in parser :" + tdt,player);
@@ -367,14 +407,27 @@ public class BasicParser {
                         throw new VMException("The If statement must be followed by '('",player);
                     getIf((AstIfStatement) leaf1);
                     ats.add(leaf1);
-                }else if(tdt.getData().equals("while")){
-                    AstWhileTree leaf1  = new AstWhileTree();
+                }else if(tdt.getData().equals("while")) {
+                    AstWhileTree leaf1 = new AstWhileTree();
                     leaf1.type = Element.AstType.WHILE;
                     tdt = getToken();
                     if (!(tdt.getToken().equals(LexToken.Token.LP) && tdt.getData().equals("(")))
-                        throw new VMException("The While statement must be followed by '('",player);
+                        throw new VMException("The While statement must be followed by '('", player);
                     getWhile((AstWhileTree) leaf1);
                     ats.add(leaf1);
+                }else if(tdt.getData().equals("catch")){
+                    AstCatchTree leaf = new AstCatchTree();
+                    ArrayList<LexToken.TokenD> tds = new ArrayList<>();
+                    do {
+                        tdt = getToken();
+                        if (tdt.getToken().equals(LexToken.Token.LP) && tdt.getData().equals("{")) break;
+                        tds.add(tdt);
+                    } while (true);
+                    ((AstCatchTree) leaf).setTds(tds);
+                    for (AstTree at : getBlockGroup(tdt)) {
+                        leaf.children().add(at);
+                    }
+                    ats.add(leaf);
                 }else throw new VMException("error in parser :"+tdt,player);
             }
         }while (lpbuf!=0);

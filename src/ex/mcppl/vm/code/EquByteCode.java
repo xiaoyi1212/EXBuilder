@@ -11,13 +11,13 @@ public class EquByteCode implements ByteCode{
     public void exe(Executor executor) throws VMRuntimeException {
         ExObject obj = executor.getStack().pop();
         if(obj instanceof ExValueName) {
-            obj = ((ExValueName) obj).getValue();
+            obj = ((ExValueName) obj).getValue(executor.getThread());
         }
 
 
         ExObject equ = executor.getStack().peek();
         if(equ instanceof ExValueName) {
-            equ = ((ExValueName) equ).getValue();
+            equ = ((ExValueName) equ).getValue(executor.getThread());
         }
 
         if(!obj.getType().equals(equ.getType()))executor.push(new ExBool(false));

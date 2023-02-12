@@ -14,22 +14,22 @@ public class ExecuteCommand implements BasicLibrary {
             ExObject data = values.get("cmd");
 
 
-            if (data == null) throw new VMRuntimeException("system.sendcmd : Not found value 'cmd'", executor.getPlayer());
+            if (data == null) throw new VMRuntimeException("system.sendcmd : Not found value 'cmd'", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
             if (data instanceof ExValueName) {
 
                 ExValue v = null;
-                for (ExValue value : AllValueBuffer.values) {
+                for (ExValue value : executor.getThread().getAllValues()) {
                     if (value.getName().equals(((ExValueName) data).getName())) {
                         v = value;
                     }
                 }
-                if (v == null) throw new VMRuntimeException("Not found value.", executor.getPlayer());
+                if (v == null) throw new VMRuntimeException("Not found value.", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
                 data = new ExString(v.getValue().getData());
             }
             Process p = Runtime.getRuntime().exec(data.getData());
 
         }catch (Exception e){
-            throw new VMRuntimeException("system.sendcmd : "+e.getLocalizedMessage(),executor.getPlayer());
+            throw new VMRuntimeException("system.sendcmd : "+e.getLocalizedMessage(),executor.getPlayer(), VMRuntimeException.Type.EXCEPTION);
         }
         return new ExObject();
     }

@@ -16,7 +16,7 @@ public class Sin implements BasicLibrary {
             executor.getStack().push(new ExDouble(Math.sin(d)));
             return new ExDouble(Math.sin(d));
         }catch (Exception e){
-            throw new VMRuntimeException("The parameter of the function sin cannot be converted to type Double.", executor.getPlayer());
+            throw new VMRuntimeException("The parameter of the function sin cannot be converted to type Double.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         }
     }
 

@@ -36,18 +36,18 @@ public class DivByteCode implements ByteCode{
             }
 
         }else if(obj.getType().equals(ExObject.Type.OBJECT)&&isYEPType(obj1)){
-            double d = Double.parseDouble(((ExValueName)obj).getValue().getData());
+            double d = Double.parseDouble(((ExValueName)obj).getValue(executor.getThread()).getData());
 
             executor.push(new ExDouble(Double.parseDouble(executor.getStack().peek().getData())/d));
         }else if(obj1.getType().equals(ExObject.Type.OBJECT)&&isYEPType(obj)) {
-            double d = Double.parseDouble(((ExValueName)obj1).getValue().getData());
+            double d = Double.parseDouble(((ExValueName)obj1).getValue(executor.getThread()).getData());
 
             executor.push(new ExDouble(Double.parseDouble(obj.getData())/d));
         }else if(obj.getType().equals(ExObject.Type.OBJECT)&&obj1.getType().equals(ExObject.Type.OBJECT)){
-            double d = Double.parseDouble(((ExValueName)obj1).getValue().getData());
-            double a = Double.parseDouble(((ExValueName)obj).getValue().getData());
+            double d = Double.parseDouble(((ExValueName)obj1).getValue(executor.getThread()).getData());
+            double a = Double.parseDouble(((ExValueName)obj).getValue(executor.getThread()).getData());
 
             executor.push(new ExDouble(a/d));
-        }else throw new VMRuntimeException("Unknown type value can't cast Integer/Double", executor.getPlayer());
+        }else throw new VMRuntimeException("Unknown type value can't cast Integer/Double", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
     }
 }

@@ -16,7 +16,7 @@ public class Cos implements BasicLibrary {
             executor.getStack().push(new ExDouble(Math.cos(d)));
             return new ExDouble(Math.cos(d));
         }catch (Exception e){
-            throw new VMRuntimeException("The parameter of the function cos cannot be converted to type Double.", executor.getPlayer());
+            throw new VMRuntimeException("The parameter of the function cos cannot be converted to type Double.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         }
     }
 

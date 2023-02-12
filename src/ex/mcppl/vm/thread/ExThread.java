@@ -4,6 +4,7 @@ package ex.mcppl.vm.thread;
 import ex.mcppl.manage.VMOutputStream;
 import ex.mcppl.vm.VMRuntimeException;
 import ex.mcppl.vm.VMloader;
+import ex.mcppl.vm.buf.ExValue;
 import ex.mcppl.vm.exe.Function;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class ExThread implements Runnable{
     public Status status;
     String thread_name;
     public ArrayList<Function> all_functions;
+    public ArrayList<ExValue> all_values;
 
     private static int numname;
     private static synchronized int nextThreadNum() {
@@ -27,6 +29,7 @@ public class ExThread implements Runnable{
             main.launch(outputStream,this);
             status = Status.DEATH;
         } catch (VMRuntimeException e) {
+            e.printStackTrace();
             status = Status.ERROR;
             outputStream.error("线程-"+Thread.currentThread().getName()+":发生运行异常| 状态重置为ERROR");
         }
@@ -36,12 +39,16 @@ public class ExThread implements Runnable{
         RUNNING,LOADING,DEATH,ERROR,WAIT
     }
 
+    public ArrayList<ExValue> getAllValues() {
+        return all_values;
+    }
 
-    public ExThread(String name,VMloader main,ArrayList<VMloader> loaders,VMOutputStream outputStream){
+    public ExThread(String name, VMloader main, ArrayList<VMloader> loaders, VMOutputStream outputStream){
         status = Status.LOADING;
         this.main = main;
         this.loader = loaders;
         this.all_functions = new ArrayList<>();
+        this.all_values = new ArrayList<>();
         this.thread = new Thread(this);
         this.outputStream = outputStream;
         this.thread_name = name;

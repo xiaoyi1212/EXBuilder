@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class CreateThread implements BasicLibrary {
     @Override
     public ExObject invoke(HashMap<String, ExObject> values, Executor executor) throws VMRuntimeException {
-        if(values.get("name")==null)throw new VMRuntimeException("Not found function 'thread' value 'name'", executor.getPlayer());
+        if(values.get("name")==null)throw new VMRuntimeException("Not found function 'thread' value 'name'", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
         String name = values.get("name").getData();
         Function function1 = null;
         for(Function function:executor.getFunctions()){
@@ -20,7 +20,7 @@ public class CreateThread implements BasicLibrary {
                 function1 = function;
             }
         }
-        if(function1 == null) throw new VMRuntimeException("vm.valuedict : Not found function:'"+name, executor.getPlayer());
+        if(function1 == null) throw new VMRuntimeException("vm.valuedict : Not found function:'"+name, executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
 
         Function finalFunction = function1;
 

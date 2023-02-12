@@ -16,7 +16,7 @@ public class Sqrt implements BasicLibrary {
             executor.getStack().push(new ExDouble(Math.sqrt(d)));
             return new ExDouble(Math.sqrt(d));
         }catch (Exception e){
-            throw new VMRuntimeException("The parameter of the function sqrt cannot be converted to type Double.", executor.getPlayer());
+            throw new VMRuntimeException("The parameter of the function sqrt cannot be converted to type Double.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         }
     }
 

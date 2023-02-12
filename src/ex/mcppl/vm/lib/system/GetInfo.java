@@ -15,16 +15,16 @@ public class GetInfo implements BasicLibrary {
             ExObject data = values.get("info");
 
 
-            if (data == null) throw new VMRuntimeException("system.sysinfo : Not found value 'info'", executor.getPlayer());
+            if (data == null) throw new VMRuntimeException("system.sysinfo : Not found value 'info'", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
             if (data instanceof ExValueName) {
 
                 ExValue v=null;
-                for(ExValue value: AllValueBuffer.values){
+                for(ExValue value: executor.getThread().getAllValues()){
                     if(value.getName().equals(((ExValueName)data).getName())){
                         v= value;
                     }
                 }
-                if(v==null)throw new VMRuntimeException("Not found value.", executor.getPlayer());
+                if(v==null)throw new VMRuntimeException("Not found value.", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
                 data = new ExString(v.getValue().getData());
             }
             switch (data.getData()){
@@ -33,7 +33,7 @@ public class GetInfo implements BasicLibrary {
                 case "vm.version":executor.push(new ExString(Main.vm_version));break;
             }
         }catch (NullPointerException npe){
-            throw new VMRuntimeException("system.sysinfo : Unknown value name.", executor.getPlayer());
+            throw new VMRuntimeException("system.sysinfo : Unknown value name.", executor.getPlayer(), VMRuntimeException.Type.UNKNOWN_NAME);
         }
         return new ExObject(ExObject.Type.VOID,"");
 

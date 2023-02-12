@@ -16,7 +16,7 @@ public class Cbrt implements BasicLibrary {
             executor.getStack().push(new ExDouble(Math.cbrt(d)));
             return new ExDouble(Math.cbrt(d));
         }catch (Exception e){
-            throw new VMRuntimeException("The parameter of the function cbrt cannot be converted to type Double.", executor.getPlayer());
+            throw new VMRuntimeException("The parameter of the function cbrt cannot be converted to type Double.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         }
     }
 

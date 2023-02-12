@@ -18,7 +18,7 @@ public class LopByteCode implements ByteCode{
         while (true) {
             for(ByteCode bc:bool.getBcs())bc.exe(executor);
             ExObject obj = executor.getStack().pop();
-            if(!obj.getType().equals(ExObject.Type.BOOL))throw new VMRuntimeException("Cannot convert other types to Boolean types.", executor.getPlayer());
+            if(!obj.getType().equals(ExObject.Type.BOOL))throw new VMRuntimeException("Cannot convert other types to Boolean types.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
             ExBool booll = (ExBool) obj;
             boolean b = Boolean.parseBoolean(booll.getData());
             if(!b)break;
@@ -33,7 +33,7 @@ public class LopByteCode implements ByteCode{
                     }
 
                     ExObject obj11 = executor.getStack().pop();
-                    if(!obj11.getType().equals(ExObject.Type.BOOL))throw new VMRuntimeException("Cannot convert other types to Boolean types.", executor.getPlayer());
+                    if(!obj11.getType().equals(ExObject.Type.BOOL))throw new VMRuntimeException("Cannot convert other types to Boolean types.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
                     ExBool booll11 = (ExBool) obj11; boolean b1 = Boolean.parseBoolean(booll11.getData());
                     if(b1) {
                         for (ByteCode bccc : ((JneByteCode) bc).getGbc().getBcs()) {

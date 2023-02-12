@@ -13,14 +13,14 @@ public class GetValueText implements BasicLibrary {
         ExObject name = values.get("var");
         if(name instanceof ExValueName) name = new ExString(((ExValueName) name).getName());
 
-        for(ExValue value: AllValueBuffer.values) {
+        for(ExValue value: executor.getThread().getAllValues()) {
             if (value.getName().equals(name.getData())) {
                 executor.getStack().push(new ExString(value.getText()));
                 return new ExObject();
             }
         }
 
-        throw new VMRuntimeException("vm.text : Not found value name.", executor.getPlayer());
+        throw new VMRuntimeException("vm.text : Not found value name.", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package ex.mcppl.vm.code;
 
 import ex.mcppl.vm.VMRuntimeException;
-import ex.mcppl.vm.buf.AllValueBuffer;
 import ex.mcppl.vm.buf.ExObject;
 import ex.mcppl.vm.buf.ExValue;
 import ex.mcppl.vm.exe.Executor;
@@ -29,16 +28,18 @@ public class SetByteCode implements ByteCode{
             ExObject Return = executor.getStack().pop();
 
 
-            for(ExValue value:AllValueBuffer.values){
-                if(value.getName().equals(name)){
-                    if(!value.getValue().getClass().isInstance(Return)) throw new VMRuntimeException("The new value of the variable does not match the original value type:"+name, executor.getPlayer());
+            for (ExValue value : executor.getThread().getAllValues()) {
+                if (value.getName().equals(name)) {
+                    if (!value.getValue().getClass().isInstance(Return))
+                        throw new VMRuntimeException("The new value of the variable does not match the original value type:" + name, executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
                     value.setValue(Return);
                 }
             }
-
+        }catch (VMRuntimeException e){
+            throw e;
         }catch (Exception e){
             e.printStackTrace();
-            throw new VMRuntimeException("Create value throw exception:"+e.getLocalizedMessage(), executor.getPlayer());
+            throw new VMRuntimeException("Create value throw exception:"+e.getLocalizedMessage(), executor.getPlayer(), VMRuntimeException.Type.EXCEPTION);
         }
     }
 }

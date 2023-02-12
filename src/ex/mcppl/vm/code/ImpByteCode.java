@@ -18,6 +18,6 @@ public class ImpByteCode implements ByteCode{
             String name = libname.split("\\.")[0];
             return;
         }
-        throw new VMRuntimeException("Not found library:"+libname, executor.getPlayer());
+        throw new VMRuntimeException("Not found library:"+libname, executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_LIB);
     }
 }

@@ -16,7 +16,7 @@ public class Tan implements BasicLibrary {
             executor.getStack().push(new ExDouble(Math.tan(d)));
             return new ExDouble(Math.tan(d));
         }catch (Exception e){
-            throw new VMRuntimeException("The parameter of the function tan cannot be converted to type Double.", executor.getPlayer());
+            throw new VMRuntimeException("The parameter of the function tan cannot be converted to type Double.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         }
     }
 

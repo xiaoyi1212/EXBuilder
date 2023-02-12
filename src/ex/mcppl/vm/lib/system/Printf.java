@@ -13,23 +13,25 @@ public class Printf implements BasicLibrary {
         try {
             ExObject data = values.get("out");
 
-
-            if (data == null) throw new VMRuntimeException("system.printf : Not found value 'out'", executor.getPlayer());
+            if (data == null) throw new VMRuntimeException("system.printf : Not found value 'out'", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
             if (data instanceof ExValueName) {
 
                 ExValue v=null;
-                for(ExValue value:AllValueBuffer.values){
+                for(ExValue value:executor.getThread().getAllValues()){
                     if(value.getName().equals(((ExValueName)data).getName())){
+
+                        //System.out.println(((ExValueName) data).getName());
+
                         v= value;
                     }
                 }
-                if(v==null)throw new VMRuntimeException("Not found value.",executor.getPlayer());
+                if(v==null)throw new VMRuntimeException("Not found value.",executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
                 data = new ExString(v.getValue().getData());
             }
             executor.getOutput().info(data.getData());
 
         }catch (NullPointerException npe){
-            throw new VMRuntimeException("system.printf : Unknown value name.", executor.getPlayer());
+            throw new VMRuntimeException("system.printf : Unknown value name.", executor.getPlayer(), VMRuntimeException.Type.UNKNOWN_NAME);
         }
         return new ExObject(ExObject.Type.VOID,"");
     }

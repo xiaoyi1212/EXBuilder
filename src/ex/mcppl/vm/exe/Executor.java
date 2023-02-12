@@ -4,6 +4,8 @@ import ex.mcppl.manage.VMOutputStream;
 import ex.mcppl.vm.VMRuntimeException;
 import ex.mcppl.vm.buf.ExObject;
 import ex.mcppl.vm.code.ByteCode;
+import ex.mcppl.vm.code.CatchByteCode;
+import ex.mcppl.vm.code.GroupByteCode;
 import ex.mcppl.vm.lib.LibLoader;
 import ex.mcppl.vm.thread.ExThread;
 
@@ -43,6 +45,10 @@ public class Executor {
         e.stack_var = 0;
         e.threads = new ArrayList<>();
         return e;
+    }
+
+    public ExThread getThread() {
+        return thread;
     }
 
     public void addThread(ExThread thread){
@@ -95,22 +101,35 @@ public class Executor {
     public ArrayList<String> start(VMOutputStream player, ExThread thread) throws VMRuntimeException {
         this.thread = thread;
         long a = System.currentTimeMillis();
-
-        try {
+        boolean iserror = false;
+        VMRuntimeException vre = null;
             for (ByteCode bc : fbc.getBcs()) {
-
-                if(e.getOutputBuffer().size() > 100){
+                try {
+                    bc.exe(e);
+                }catch (VMRuntimeException e){
                     thread.status = ExThread.Status.ERROR;
-                    shutdown(-1,player);
-                    throw new VMRuntimeException("Out of memory error: 输出缓冲区溢出",player);
+                    iserror = true;
+                    vre = e;
                 }
 
-                bc.exe(e);
             }
+
+            if(iserror) {
+                for(ByteCode bc:fbc.getBcs()){
+                    if(bc instanceof CatchByteCode){
+                        if(vre.getType().name().equals(((CatchByteCode) bc).getType())){
+                            thread.status = ExThread.Status.LOADING;
+                            bc.exe(e);
+                            iserror = false;
+                            thread.status = ExThread.Status.RUNNING;
+                            break;
+                        }else continue;
+                    }else continue;
+                }
+            }
+
             player.info("[EXVM-EXIT]:程序已退出,退出代码: 0");
-        }catch (VMRuntimeException e){
-            throw e;
-        }
+
         if(debug) {
             System.out.println("Done! Times(" + (System.currentTimeMillis() - a) + ")MS");
             System.out.println("LoadedFunctions:" + functions.size());

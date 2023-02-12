@@ -14,26 +14,26 @@ public class ValueTypeEquals implements BasicLibrary {
         ExObject value_second = values.get("s");
         if(value_first instanceof ExValueName&&value_second instanceof ExValueName){
             ExValue v=null;
-            for(ExValue value: AllValueBuffer.values){
+            for(ExValue value: executor.getThread().getAllValues()){
                 if(value.getName().equals(((ExValueName)value_first).getName())){
                     v= value;
                 }
             }
-            if(v==null)throw new VMRuntimeException("Not found value.", executor.getPlayer());
+            if(v==null)throw new VMRuntimeException("Not found value.", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
 
             ExValue va=null;
-            for(ExValue value: AllValueBuffer.values){
+            for(ExValue value: executor.getThread().getAllValues()){
                 if(value.getName().equals(((ExValueName)value_second).getName())){
                     va= value;
                 }
             }
-            if(va==null)throw new VMRuntimeException("Not found value.", executor.getPlayer());
+            if(va==null)throw new VMRuntimeException("Not found value.", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
 
             executor.push(new ExBool(v.getValue().getClass().isInstance(va.getValue())));
 
         }else if(value_first instanceof ExValue&&value_second instanceof ExValue){
             executor.push(new ExBool(((ExValue) value_first).getValue().getClass().isInstance(((ExValue) value_second).getValue())));
-        }else throw new VMRuntimeException("vm.equals : The parameter is not of type and is not a variable.", executor.getPlayer());
+        }else throw new VMRuntimeException("vm.equals : The parameter is not of type and is not a variable.", executor.getPlayer(), VMRuntimeException.Type.CAST_VALUE_EXCEPTION);
         return new ExObject();
     }
 

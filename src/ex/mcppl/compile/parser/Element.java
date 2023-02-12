@@ -10,14 +10,13 @@ import ex.mcppl.vm.code.ByteCode;
 import ex.mcppl.vm.exe.FileByteCode;
 import ex.mcppl.vm.exe.Function;
 import ex.mcppl.vm.lib.LibLoader;
-import ex.mcppl.vm.thread.ExThread;
 import ex.mcppl.vm.thread.ThreadManager;
 
 import java.util.ArrayList;
 
 public class Element {
     public enum AstType{
-        VALUE,INVOKE,FUNCTION,INCLUDE,NBL,BASE,IF,WHILE,BOOL,SET
+        VALUE,INVOKE,FUNCTION,INCLUDE,NBL,BASE,IF,WHILE,BOOL,SET,CATCH
     }
     AstHead head = new AstHead();
     public ArrayList<String> value_names = new ArrayList<>();

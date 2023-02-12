@@ -14,18 +14,18 @@ public class OpenFile implements BasicLibrary {
     @Override
     public ExObject invoke(HashMap<String, ExObject> values, Executor executor) throws VMRuntimeException {
         ExObject name = values.get("name");
-        if (name == null) throw new VMRuntimeException("file.openfile : Not found value 'out'", executor.getPlayer());
+        if (name == null) throw new VMRuntimeException("file.openfile : Not found value 'out'", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
         if (name instanceof ExValueName) {
             ExValue v=null;
-            for(ExValue value: AllValueBuffer.values){
+            for(ExValue value: executor.getThread().getAllValues()){
                 if(value.getName().equals(((ExValueName)name).getName())){
                     v= value;
                 }
             }
-            if(v==null)throw new VMRuntimeException("Not found value.",executor.getPlayer());
+            if(v==null)throw new VMRuntimeException("Not found value.",executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
             name = new ExString(v.getValue().getData());
         }
-        if(name instanceof ExNone) throw new VMRuntimeException("file.openfile : filename is null", executor.getPlayer());
+        if(name instanceof ExNone) throw new VMRuntimeException("file.openfile : filename is null", executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);
 
         try(BufferedReader reader = new BufferedReader(new FileReader(name.getData()))){
             String line;

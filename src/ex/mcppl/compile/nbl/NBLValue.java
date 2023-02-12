@@ -3,9 +3,7 @@ package ex.mcppl.compile.nbl;
 import ex.mcppl.compile.LexToken;
 import ex.mcppl.compile.VMException;
 import ex.mcppl.compile.parser.Element;
-import ex.mcppl.vm.buf.AllValueBuffer;
 import ex.mcppl.vm.buf.ExDouble;
-import ex.mcppl.vm.buf.ExValue;
 import ex.mcppl.vm.buf.ExValueName;
 import ex.mcppl.vm.code.*;
 
