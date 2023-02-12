@@ -1,0 +1,10 @@
+include "system";
+
+function output{
+   value a:"A" = exe.vm.valuedict(name:"output",var:"out",lib:"bug");
+   exe.system.printf(out:a);
+
+   catch NULL_PRINT_EXCEPTION {
+      exe.system.printf(out:"ERROR");
+   }
+}
