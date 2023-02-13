@@ -36,9 +36,12 @@ public class AstIncludeTree extends AstLeaf{
         LexToken.TokenD td = tds.get(0);
 
         if(!td.getToken().equals(LexToken.Token.STR))throw new VMException("Unknown lib name type.",e.getPlayer());
+        /*
         if(!e.getLoader().isLibs(td.getData())) {
             if (!FileManage.files.contains(td.getData()) && !FileManage.libs.contains(td.getData())) throw new VMException("Unknown library name.", e.getPlayer());
         }
+
+         */
         String lib = td.getData();
 
         return new ImpByteCode(lib);

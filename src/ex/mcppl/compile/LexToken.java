@@ -178,12 +178,24 @@ public class LexToken {
             }
             buf = (char) c;
             return new TokenD(Token.SEM, sb.toString());
-        }else if(c == '+'||c == '-'){
+        }else if(c == '+') {
             sb.append((char) c);
             c = getChar();
             if (c == '=') {
                 sb.append((char) c);
                 return new TokenD(Token.SEM, sb.toString());
+            }
+            buf = (char) c;
+            return new TokenD(Token.SEM, sb.toString());
+        }else if(c == '-'){
+            sb.append((char) c);
+            c = getChar();
+            if (c == '=') {
+                sb.append((char) c);
+                return new TokenD(Token.SEM, sb.toString());
+            }else if(isNum(c)){
+                sb.append((char) c);
+                return new TokenD(Token.NUM,sb.toString());
             }
             buf = (char) c;
             return new TokenD(Token.SEM, sb.toString());

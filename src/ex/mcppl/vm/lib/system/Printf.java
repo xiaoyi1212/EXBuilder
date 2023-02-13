@@ -19,9 +19,6 @@ public class Printf implements BasicLibrary {
                 ExValue v=null;
                 for(ExValue value:executor.getThread().getAllValues()){
                     if(value.getName().equals(((ExValueName)data).getName())){
-
-                        //System.out.println(((ExValueName) data).getName());
-
                         v= value;
                     }
                 }

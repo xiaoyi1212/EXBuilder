@@ -1,5 +1,6 @@
 package ex.mcppl.vm.lib;
 
+import ex.mcppl.plugin.loader.SimplePluginManage;
 import ex.mcppl.vm.lib.file.OpenFile;
 import ex.mcppl.vm.lib.file.WriteFile;
 import ex.mcppl.vm.lib.math.*;
@@ -46,6 +47,8 @@ public class LibLoader {
         file.add(new OpenFile());
         file.add(new WriteFile());
         libs.put("file",file);
+
+        SimplePluginManage.loaderLibrary(this);
     }
 
     public boolean isLoaderLiba(String name){

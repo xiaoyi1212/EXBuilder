@@ -31,12 +31,11 @@ public class Main {
         output = new VMOutputStream();
 
         /*
-        args = new String[2];
-        args[0]="-filename:debug.exf";
-        args[1]="-filename:bug.exf";
-        */
-
-
+        args = new String[3];
+        args[0]="-loadlib:Native.jar";
+        args[1]="-filename:debug.exf";
+        args[2]="-filename:bug.exf";
+         */
 
         if(args.length == 0){
             System.out.println("-filename:<File> 编译并运行指定文件.\n" +

@@ -16,16 +16,22 @@ public class BoolExpression {
 
     public static ArrayList<ByteCode> calculate(Element e,ArrayList<LexToken.TokenD> tds) throws VMException {
         ArrayList<ByteCode> ret = new ArrayList<>();
+
         for (LexToken.TokenD td:tds){
             if(td.getToken().equals(LexToken.Token.NAME)){
                 if(td.getData().equals("true")) ret.add(new PushByteCode(new ExBool(true)));
                 else if(td.getData().equals("false")) ret.add(new PushByteCode(new ExBool(false)));
             }else if(td.getToken().equals(LexToken.Token.SEM)){
-                switch (td.getData()){
-                    case "!":ret.add(new NotByteCode());break;
-                    case "&":ret.add(new AndByteCode());break;
-                    case "|":ret.add(new OrByteCode());break;
-                    case "==":ret.add(new EquByteCode());break;
+                switch (td.getData()) {
+                    case "!" -> ret.add(new NotByteCode());
+                    case "&" -> ret.add(new AndByteCode());
+                    case "|" -> ret.add(new OrByteCode());
+                    case "==" -> ret.add(new EquByteCode());
+                    case ">=" -> ret.add(new BigEquByteCode());
+                    case "<=" -> ret.add(new LessEquByteCode());
+                    case ">" -> ret.add(new BigByteCode());
+                    case "<" -> ret.add(new LessByteCode());
+                    default -> throw new VMException("Unknown sem in boolean statement.", e.getPlayer());
                 }
             }else if(td.getToken().equals(LexToken.Token.KEY)) {
                 ExValueName valuea = null;
@@ -49,7 +55,7 @@ public class BoolExpression {
         for(LexToken.TokenD c : expression) {
             switch (c.getData()){
                 case "!":b = !b;break;
-                case "&", "|","==":
+                case "&", "|","==",">=","<=":
                     while (stack.size() != 0){
                         temp = stack.pop();
                         if(temp.getData().equals("(")){stack.push(temp);break;}out.add(temp);

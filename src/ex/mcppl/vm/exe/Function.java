@@ -52,7 +52,7 @@ public class Function implements ByteCode{
                 if(bc instanceof CatchByteCode){
                     if(vre.getType().name().equals(((CatchByteCode) bc).getType())){
                         executor.getThread().status = ExThread.Status.LOADING;
-                        bc.exe(executor);
+                        ((CatchByteCode) bc).executor(executor);
                         executor.getThread().status = ExThread.Status.RUNNING;
                         break;
                     }

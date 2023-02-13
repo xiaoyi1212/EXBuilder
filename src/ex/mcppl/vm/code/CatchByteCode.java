@@ -15,8 +15,12 @@ public class CatchByteCode implements ByteCode{
         return type;
     }
 
+    public void executor(Executor executor) throws VMRuntimeException{
+        gbc.exe(executor);
+    }
+
     @Override
     public void exe(Executor executor) throws VMRuntimeException {
-        gbc.exe(executor);
+
     }
 }

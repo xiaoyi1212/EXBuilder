@@ -5,7 +5,6 @@ import ex.mcppl.vm.VMRuntimeException;
 import ex.mcppl.vm.buf.ExObject;
 import ex.mcppl.vm.code.ByteCode;
 import ex.mcppl.vm.code.CatchByteCode;
-import ex.mcppl.vm.code.GroupByteCode;
 import ex.mcppl.vm.lib.LibLoader;
 import ex.mcppl.vm.thread.ExThread;
 
@@ -15,17 +14,16 @@ import java.util.Stack;
 public class Executor {
     private Executor(){
     }
-    Stack<ExObject> stack;
-    FileByteCode fbc;
-    ExThread thread;
+    private Stack<ExObject> stack;
+    private FileByteCode fbc;
+    private ExThread thread;
 
-    ArrayList<Function> functions;
-    ArrayList<String> output_buffer;
-    static Executor e;
-    VMOutputStream player;
-    LibLoader loader;
-    boolean debug;
-    public int stack_var;
+    private ArrayList<Function> functions;
+    private ArrayList<String> output_buffer;
+    private VMOutputStream player;
+    private LibLoader loader;
+    private boolean debug;
+    private int stack_var;
 
     public VMOutputStream getOutput() {
         return player;
@@ -34,7 +32,7 @@ public class Executor {
     ArrayList<ExThread> threads;
 
     public static Executor load(FileByteCode fbc, VMOutputStream player, LibLoader loader,ArrayList<Function> functions){
-        e = new Executor();
+        Executor e = new Executor();
         e.player = player;
         e.loader = loader;
         e.output_buffer = new ArrayList<>();
@@ -105,7 +103,7 @@ public class Executor {
         VMRuntimeException vre = null;
             for (ByteCode bc : fbc.getBcs()) {
                 try {
-                    bc.exe(e);
+                    bc.exe(this);
                 }catch (VMRuntimeException e){
                     thread.status = ExThread.Status.ERROR;
                     iserror = true;
@@ -119,7 +117,7 @@ public class Executor {
                     if(bc instanceof CatchByteCode){
                         if(vre.getType().name().equals(((CatchByteCode) bc).getType())){
                             thread.status = ExThread.Status.LOADING;
-                            bc.exe(e);
+                            ((CatchByteCode) bc).executor(this);
                             iserror = false;
                             thread.status = ExThread.Status.RUNNING;
                             break;

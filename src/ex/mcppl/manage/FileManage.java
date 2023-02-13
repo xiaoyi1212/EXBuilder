@@ -3,11 +3,14 @@ package ex.mcppl.manage;
 import ex.mcppl.compile.LexToken;
 import ex.mcppl.compile.VMException;
 import ex.mcppl.compile.parser.BasicParser;
+import ex.mcppl.plugin.loader.SimplePluginManage;
 import ex.mcppl.vm.VMRuntimeException;
 import ex.mcppl.vm.VMloader;
+import ex.mcppl.vm.lib.math.E;
 import ex.mcppl.vm.thread.ExThread;
 import ex.mcppl.vm.thread.ThreadManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -24,13 +27,21 @@ public class FileManage {
                 return;
             }else if(a.contains("-loadlib:")){
                 libs.add(a.split(":")[1]);
-            }
-            else if(a.contains("-filename:")){
+            } else if(a.contains("-filename:")){
                 isfile = true;
                 String name = a.split(":")[1];
                 files.add(name);
             }
         }
+
+        try {
+            for (String str : libs) SimplePluginManage.loadPlugins(new File(str));
+            SimplePluginManage.launch();
+        }catch (Exception e){
+            System.out.println("加载外部库时发生错误!");
+            e.printStackTrace();
+        }
+
         if(isfile) {
            ArrayList<VMloader> l = launch();
            VMloader lmain = l.get(0);
