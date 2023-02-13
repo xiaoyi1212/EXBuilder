@@ -81,6 +81,22 @@ OpenEX是一个编译解释一体化的脚本语言，其目的并不是为了�
 * ThreadManage负责虚拟机的线程管理
 * ExThread代表一个解释器的线程，程序启动后会在ThreadManage自动添加一个名为main的线程作为主线程运行
 
+<hr>
+
+## 外部库
+* OpenEX内部库非常有限,所以添加插件功能以进行扩展
+* 所有插件主类都要继承ex.mcppl.plugin.Interface类
+> getLibraryName :库名,由 include 语句导入时限定的名称\
+> onLoadLibrary :插件加载时调用,可用于初始化插件\
+> registerLib :返回已注册的函数
+
+* 所有函数实现类都要继承ex.mcppl.plugin.Library类
+> executor :当脚本通过该库调用指定函数时调用该方法\
+
+* 注意!请不要直接去实现ex.mcppl.vm.lib.BasicLibrary类,其传入的参数是函数调用的原始参数，不能被直接使用
+* 请不要直接更改Libloader去加载该库,如强制加载可能会造成BUG
+
+
 ## 附言
 * OpenEX 原DotCS的EX编程语言项目
 * 以下致谢
