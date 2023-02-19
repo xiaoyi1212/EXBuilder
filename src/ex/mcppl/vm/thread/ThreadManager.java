@@ -2,6 +2,7 @@ package ex.mcppl.vm.thread;
 
 import ex.mcppl.manage.Main;
 import ex.mcppl.vm.VMRuntimeException;
+import ex.mcppl.vm.buf.ExValue;
 import ex.mcppl.vm.exe.Function;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class ThreadManager {
     static ArrayList<ExThread> threads = new ArrayList<>();
     public static ArrayList<Function> all_functions = new ArrayList<>();
+    public static ArrayList<ExValue> all_values = new ArrayList<>();
 
     public static int getThreads(){return threads.size();}
 
