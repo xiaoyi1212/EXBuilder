@@ -1,9 +1,11 @@
 package ex.mcppl.vm.lib;
 
-import ex.mcppl.vm.lib.file.OpenFile;
-import ex.mcppl.vm.lib.file.WriteFile;
+import ex.mcppl.plugin.loader.SimplePluginManage;
+import ex.mcppl.vm.lib.file.*;
 import ex.mcppl.vm.lib.math.*;
 import ex.mcppl.vm.lib.system.*;
+import ex.mcppl.vm.lib.util.List;
+import ex.mcppl.vm.lib.util.Map;
 import ex.mcppl.vm.lib.vm.*;
 
 import java.util.ArrayList;
@@ -40,23 +42,22 @@ public class LibLoader {
         vm.add(new SetVMDebug());
         vm.add(new ValueTypeEquals());
         vm.add(new CreateThread());
+        vm.add(new ThreadSleep());
         libs.put("vm",vm);
 
         ArrayList<BasicLibrary> file = new ArrayList<>();
         file.add(new OpenFile());
         file.add(new WriteFile());
+        file.add(new EmptyFile());
         libs.put("file",file);
-    }
 
-    public boolean isLoaderLiba(String name){
-        return loader.containsKey(name);
-    }
-    public boolean isLoaderFunction(String lib_name,String function_name){
-        ArrayList<BasicLibrary> bls = loader.get(lib_name);BasicLibrary bl = null;
-        if(bls==null)return false;
-        for(BasicLibrary bll:loader.get(lib_name))if(bll.getLibFunctionName().equals(function_name))bl = bll;
-        if(bl == null)return false;
-        return true;
+
+        ArrayList<BasicLibrary> util = new ArrayList<>();
+        util.add(new List());
+        util.add(new Map());
+        libs.put("util",util);
+
+        SimplePluginManage.loaderLibrary(this);
     }
 
     public boolean isLibs(String name){

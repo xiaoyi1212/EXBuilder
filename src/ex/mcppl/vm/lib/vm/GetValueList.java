@@ -52,6 +52,11 @@ public class GetValueList implements BasicLibrary {
                             oo = value1.getValue();
                         }
                     }
+                    for(ExValue value2: ThreadManager.all_values){
+                        if(value2.getName().equals(((ExValueName)name1).getName())){
+                            oo= value2.getValue();
+                        }
+                    }
                 }else oo = obj;
 
                 if(oo==null)throw new VMRuntimeException("vm.valuedict : function:'"+function.getName()+"' value:"+value+" is null.", executor.getPlayer(), VMRuntimeException.Type.NULL_PRINT_EXCEPTION);

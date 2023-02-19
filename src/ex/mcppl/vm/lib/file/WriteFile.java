@@ -4,6 +4,7 @@ import ex.mcppl.vm.VMRuntimeException;
 import ex.mcppl.vm.buf.*;
 import ex.mcppl.vm.exe.Executor;
 import ex.mcppl.vm.lib.BasicLibrary;
+import ex.mcppl.vm.thread.ThreadManager;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -24,6 +25,11 @@ public class WriteFile implements BasicLibrary {
                 for(ExValue value: executor.getThread().getAllValues()){
                     if(value.getName().equals(((ExValueName)data).getName())){
                         v= value;
+                    }
+                }
+                for(ExValue value1: ThreadManager.all_values){
+                    if(value1.getName().equals(((ExValueName)data).getName())){
+                        v= value1;
                     }
                 }
                 if(v==null)throw new VMRuntimeException("Not found value.",executor.getPlayer(), VMRuntimeException.Type.NOT_FOUND_VALUE_EXCEPTION);

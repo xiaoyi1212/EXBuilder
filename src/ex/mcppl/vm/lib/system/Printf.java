@@ -4,6 +4,7 @@ import ex.mcppl.vm.VMRuntimeException;
 import ex.mcppl.vm.buf.*;
 import ex.mcppl.vm.exe.Executor;
 import ex.mcppl.vm.lib.BasicLibrary;
+import ex.mcppl.vm.thread.ThreadManager;
 
 import java.util.HashMap;
 
@@ -19,9 +20,11 @@ public class Printf implements BasicLibrary {
                 ExValue v=null;
                 for(ExValue value:executor.getThread().getAllValues()){
                     if(value.getName().equals(((ExValueName)data).getName())){
-
-                        //System.out.println(((ExValueName) data).getName());
-
+                        v= value;
+                    }
+                }
+                for(ExValue value: ThreadManager.all_values){
+                    if(value.getName().equals(((ExValueName)data).getName())){
                         v= value;
                     }
                 }
