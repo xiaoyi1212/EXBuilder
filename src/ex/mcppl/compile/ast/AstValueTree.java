@@ -42,7 +42,15 @@ public class AstValueTree extends AstLeaf{
         index = 0;
         String name,text;ArrayList<ByteCode> bcs = new ArrayList<>();
         LexToken.TokenD td = getTokens();
+        MovByteCode.TYPE type11;
 
+
+        if(!td.getToken().equals(LexToken.Token.NAME))throw new VMException("The variable definition statement must have an access permission modifier.",e.getPlayer());
+        if(td.getData().equals("local"))type11 = MovByteCode.TYPE.LOCAL;
+        else if(td.getData().equals("global"))type11 = MovByteCode.TYPE.GLOBAL;
+        else throw new VMException("Unknown type in value statement",e.getPlayer());
+
+        td = getTokens();
         if(!td.getToken().equals(LexToken.Token.KEY))throw new VMException("Variable names must not be defined with other types.",e.getPlayer());
         name = td.getData();td = getTokens();
         if(!(td.getToken().equals(LexToken.Token.SEM)&&td.getData().equals(":")))throw new VMException("Unknown lex in value creator.",e.getPlayer());
@@ -64,6 +72,6 @@ public class AstValueTree extends AstLeaf{
         }
         e.value_names.add(name);
         index = 0;
-        return new MovByteCode(name,text,bcs);// new MovByteCode();
+        return new MovByteCode(name,text,bcs,type11);// new MovByteCode();
     }
 }
